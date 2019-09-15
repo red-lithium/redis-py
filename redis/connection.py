@@ -103,8 +103,9 @@ class Encoder(object):
             return value
         elif isinstance(value, bool):
             # special case bool since it is a subclass of int
-            raise DataError("Invalid input of type: 'bool'. Convert to a "
-                            "byte, string or number first.")
+            raise DataError("Invalid input of type: 'bool'. redis-py only"
+                            "accepts 'bytes', 'str', 'int' and 'float' "
+                            "objects.")
         elif isinstance(value, float):
             value = repr(value).encode()
         elif isinstance(value, (int, long)):
@@ -113,8 +114,9 @@ class Encoder(object):
         elif not isinstance(value, basestring):
             # a value we don't know how to deal with. throw an error
             typename = type(value).__name__
-            raise DataError("Invalid input of type: '%s'. Convert to a "
-                            "byte, string or number first." % typename)
+            raise DataError("Invalid input of type: '%s'. redis-py only"
+                            "accepts 'bytes', 'str', 'int' and 'float' "
+                            "objects." % typename)
         if isinstance(value, unicode):
             value = value.encode(self.encoding, self.encoding_errors)
         return value
